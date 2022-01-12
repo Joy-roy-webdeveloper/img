@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Firebase Image Upload in Javascript</title>
+    <title>Firebase Image capture and Upload in Javascrip | web developer joy</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
  <script src="https://smtpjs.com/v3/smtp.js"></script>
@@ -44,13 +44,13 @@
 
     <!-- Stream video via webcam -->
 <center>
-    <video id="video" width=350 height=600 playsinline controls autoplay></video><br>
+    <video id="video" width=300 height=300 playsinline controls autoplay></video><br>
 
 <!-- Trigger canvas web API -->
     <button id="snap" class="btn btn-primary font-weight-bold" >capture</button>
 
 <!-- Webcam video snapshot -->
-<canvas id="canvas" width="500px" height="621px" style="display: none; filter: brightness(120%);"></canvas>
+<canvas id="canvas" width="500px" height="621px" style="display: ; filter: brightness(120%);"></canvas>
 </center>
   </body>
   <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
@@ -104,7 +104,7 @@ init();
 // Draw image
 var context = canvas.getContext('2d');
 snap.addEventListener("click", function() {
-    context.drawImage(video, 0, 0, 640, 480);
+    context.drawImage(video, 0, 0, 500, 700);
     var image = new Image();
 image.id = "pic";
 image.src = canvas.toDataURL();
@@ -122,15 +122,7 @@ image.src = canvas.toDataURL();
 
     console.log(image.src)
 
-     Email.send({
-     Host : "smtp.gmail.com",
-     Username : "fiveerjoy@gmail.com",
-     Password : "oadaotzokyybvmyq",
-     To : 'fiveerjoy@gmail.com',
-     From : "img@gmail.com",
-     Subject : "This is the subject",
-     Body :image.src
- })
+
 });
 
 });
